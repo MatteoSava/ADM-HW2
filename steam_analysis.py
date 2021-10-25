@@ -70,8 +70,7 @@ def most_common_review_time(df, count):
     time_of = grouping.index.to_list()
 
     for i in time_of:
-        print(f'{i.hour}:{i.minute}')
-        #print('{:02d}:{:02d}'.format(i.hour, i.minute))
+        print('{:02d}:{:02d}'.format(i.hour, i.minute))
 
 def reviews_between_time_intervals(df, list_interval):
     datex = pd.to_datetime(df.timestamp_created, unit='s')
