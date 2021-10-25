@@ -107,5 +107,6 @@ venv.bak/
 data/
 old_data/
 
-# ignore real data
-realdata/
+# ignore dataset
+dataset/
+.DS_Store
