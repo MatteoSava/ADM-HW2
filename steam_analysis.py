@@ -1,4 +1,5 @@
-######################## RQ4
+import matplotlib.pyplot as plt
+import pandas as pd
 
 def count_languages(df):
     """
@@ -86,28 +87,25 @@ def filter_by_language(df, languages):
     
     f_df = df[df['language'].isin(languages)]
     
+    # this loop prints a report
+    # with the percentages of 'Funny' and 'Helpful' reviews
+    # for each language in 'languages'
     for lang in languages:
         
         f_df_lang = f_df[f_df['language'] == lang]
         
-        votes_funny = f_df_lang[f_df_lang['votes_funny'] > 0]['votes_funny'].value_counts().sum()  
-        percent_funny = 100 * votes_funny / f_df_lang['votes_funny'].count()
+        prob_funny = compute_prob(f_df_lang, 'votes_funny', 1)       
+        print(format_prob(prob_funny), "of the", lang.capitalize(), "reviews were considered 'Funny'")
         
-        print(f"{percent_funny:.0f}% of the {lang.capitalize()} reviews were considered 'Funny'")
-
-        votes_helpful = f_df_lang[f_df_lang['votes_helpful'] > 0]['votes_helpful'].value_counts().sum()
-        percent_helpful = 100 * votes_helpful / f_df_lang['votes_helpful'].count()
-        
-        print(f"{percent_helpful:.0f}% of the {lang.capitalize()} reviews were considered 'Helpful'")
+        prob_helpful = compute_prob(f_df_lang, 'votes_helpful', 1)       
+        print(format_prob(prob_helpful), "of the", lang.capitalize(), "reviews were considered 'Helpful'")
     
     return f_df
-
-######################## RQ7
 
 
 def compute_prob(df, col_name, x):
     """
-    RQ7
+    RQ4 RQ7
     This function computes the probability of the values in a column
     being larger than or equal to a certain value
     
@@ -126,7 +124,7 @@ def compute_prob(df, col_name, x):
 
 def format_prob(prob, decimals = 2):
     """
-    RQ7
+    RQ4 RQ7
     This function formats and prints a (float) probability 
     between 0 and 1 as a percentage
     
@@ -134,10 +132,25 @@ def format_prob(prob, decimals = 2):
         prob      : (float) number between 0 and 1
         decimals  : (int) number of decimals the percentage will be include
     Returns:
-        void
+        f-string with the probability as a percentage
     """
     
-    print(f"{100 * prob:.{decimals}f}%")
+    return f"{100 * prob:.{decimals}f}%"
     
 
-
+def norm_col(col):
+    """
+    RQ7 RQ8
+    Normalizes a pandas dataframe's column so
+    its min value is 0 and its max value is 1
+    
+    Arguments:
+        col : column of a pandas dataframe
+    Returns:
+        normalized col
+    """
+    
+    col_min = col.min()
+    col_max = col.max()
+    
+    return (col - col_min) / (col_max - col_min)
