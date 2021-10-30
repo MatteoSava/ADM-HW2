@@ -387,3 +387,177 @@ def norm_col(col):
     col_max = col.max()
     
     return (col - col_min) / (col_max - col_min)
+
+
+
+    ############## RQ5 ##############
+
+def ten_popular_reviewers(df):
+    """
+    This functions finds the top 10 most popular reviewers and their no of reviews
+    
+    Arguments
+        df : pandas dataframe
+    Returns
+        list of tuples (author.steamid, num_of_reviews)
+    """
+    
+    return(df.groupby(['author.steamid']).size().sort_values(ascending=False).head(10))
+
+def plot_ten_popular_reviewers(df2):
+    
+    """
+    This functions plots the the number of reviews made by the top 10 most popular reviewers
+    
+    Arguments
+        df2 : list of tuples (author.steamid, num_of_reviews)
+    Returns
+        bar plot of top 10 most popular reviewers
+    """
+    #plotting the the number of reviews made by the top 10 most popular reviewers
+    df2.plot(kind='bar')
+    plt.show()
+    
+def count_and_percent_purchase_free(p,f,l):
+    """
+    This functions prints the count and percentage of applications purchased, and got for free
+    
+    Arguments
+        p : count of purchased application
+        f:  count of free application
+        l : length of column
+    Returns
+         void
+    """ 
+    a=(p/l)*100
+    b=(f/l)*100
+    print("Number of applications purchased by the popular reviewer")
+    print(f)
+    print("Percentage of applications purchased by the popular reviewer" )
+    print(b)
+    print("Number of applications received for free by the popular reviewer")
+    print(p)
+    print("Percentage of applications received for free  by the popular reviewer" )
+    print(a)    
+    
+def count_positive_negative_review_free(fn,fp,l2):
+    """
+    This functions prints the count and percentage of applications purchased, and got for free
+    
+    Arguments
+        fn : count of free application negatively reviewed
+        fp:  count of free application positively reviewed
+        l2 : length of column
+    Returns
+         void  """
+    a=(fp/l2)*100
+    b=(fn/l2)*100
+    print("Number of applications received for free and reviewed positively")
+    print(fp)
+    print("Percentage of applications received for free and reviewed positively" )
+    print(a)
+    print("Number of applications received for free and reviewed negatively")
+    print(fn)
+    print("Percentage of applications received for free and reviewed negatively" )
+    print(b)  
+
+def count_positive_negative_review_free(pn,pp,l3):
+    """
+    This functions prints the count and percentage of applications purchased, and got for free
+    
+    Arguments
+        pn : count of purchased application negatively reviewed
+        pp:  count of purchased application positively reviewed
+        l3 : length of column
+    Returns
+         void  """
+    
+    a=(pp/l3)*100
+    b=(pn/l3)*100
+    print("Number of applications purchased and reviewed positively")
+    print(pp)
+    print("Percentage of applications purchased and reviewed positively" )
+    print(a)
+    print("Number of applications purchased and reviewed negatively")
+    print(pn)
+    print("Percentage of applications purchased  and reviewed negatively" )
+    print(b)  
+
+
+
+############## RQ6 ##############
+
+def avg_time_before_update(df):
+    """
+    This functions prints the average time (days and minutes) a user lets pass before he updates a review
+    
+    Arguments
+         df : pandas dataframe
+        
+    Returns
+         void  """
+    
+    #we extract the column from the dataset
+    df4=df['author.playtime_at_review']
+    #finding the mean
+    t=np.mean(df4)
+    #To convert the average time to days and minutes
+    t=t/(60*24)
+    T=int(t)
+    print (T," days",int((t-float(T))*24*60), "Minutes")
+    
+def removing_nonupdated_reviews(df):
+    """
+    This functions removes the reviewers who haven't updated the reviews
+    
+    Arguments
+         df : pandas dataframe   
+    Returns
+         removes new dataframe with reviewer steamid and difference between timestamps of creation and updatiion
+         """ 
+    
+    #We take the difference of the 2 variables ("timestamp created " and "timestamp updated") to find the reviewers who haven't updated the reviews
+    difference=df['timestamp_updated']-df['timestamp_created']
+
+    #Storing the values inside a new dataframe Differ
+    dataf = {'Differ':difference}
+    diff=pd.DataFrame(dataf)
+    #creating dataframe of reviewer id
+    df6=df['author.steamid']
+    df6
+    #Concatinating both data frame
+    conc = pd.concat([df6, diff], axis=1)
+    conc
+    
+    #Now we delete the reviews which is not updated by removing the reviews with Differ column value zero .
+    #So that we get the output dataframe with the time difference between update and
+    #creation of reviews and the reviewer id.
+    df7 = conc[conc.Differ != 0]
+    return(df7)
+
+def count_number_reviews(df):
+    """
+    This functions counts the number of reviews by each of the top 3 reviewers
+    
+    Arguments
+        df : dataframe
+    Returns
+        list of tuples (author.steamid, count_of_reviews)
+    """
+    
+    return(df.groupby(['author.steamid']).size().sort_values(ascending=False).head(3))
+
+
+def plot_top3_reviewers(df2):
+    
+    """
+    This functions plots the top 3 authors that usually update their reviews
+    
+    Arguments
+        df2 : list of tuples (author.steamid, num_of_reviews)
+    Returns
+        bar plot of top 3 reviewers who usually update their reviews
+    """
+    #plotting the the number of reviews made by the top 10 most popular reviewers
+    df2.plot(kind='bar')
+    plt.show()
