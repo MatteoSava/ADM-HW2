@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 def count_languages(df):
     """
@@ -32,23 +33,34 @@ def sort_count(count, n = 3, reverse = True):
     return(top[:n])
 
 
-def languages_pie(languages):
+def languages_pie(languages, num_of_labels = 9):
     """
     RQ4
-    This function creates a pie chart with the number of occurrences
+    This function creates a pie chart of the number of occurrences
     of each language in the dataset
     
     Arguments
-        languages : 'language' column of the pandas dataframe
+        languages     : 'language' column of the pandas dataframe
+        num_of_labels : (int) how many languages are displayed on their own
     Returns
         void
     """
+    
+    all_langs = languages.value_counts()
+    
+    shown_langs = all_langs[:num_of_labels]  
+    shown_langs['other'] = np.sum(all_langs[num_of_labels:].values)
         
     plt.rcParams['figure.figsize'] = (10, 10)
-    plt.pie(languages.value_counts(), 
-        labels = languages.value_counts().index,
-        explode = [0.1 if language > 10000 else 0.05 for language in languages.value_counts()],
-        autopct = '%.1f%%')
+    plt.pie(
+        shown_langs, 
+        labels = [lang.capitalize() for lang in shown_langs.index],
+        explode = [0.05] + [0] * (shown_langs.index.size - 2) + [0.05],
+        autopct = '%.0f%%',
+        pctdistance = 0.7,
+        startangle = 90,
+        textprops = {'fontsize': 15}
+        )
     plt.show()
 
     
@@ -60,12 +72,12 @@ def print_top_languages(top_languages):
     in a nice and readable format
     
     Arguments
-        top_languages : list of tuples (e.g [(german, 80), (french, 70), (italian, 60)])
+        top_languages : list of tuples (e.g [('german', 80), ('french', 70), ('italian', 60)])
     Returns
         void
     """
     
-    print("The three most common languages are:")
+    print("The top three most common languages are:\n")
     for lang, num in top_languages:
             print(f"{lang.capitalize()} with {num} reviews")
 
@@ -95,10 +107,10 @@ def filter_by_language(df, languages):
         f_df_lang = f_df[f_df['language'] == lang]
         
         prob_funny = compute_prob(f_df_lang, 'votes_funny', 1)       
-        print(format_prob(prob_funny), "of the", lang.capitalize(), "reviews were considered 'Funny'")
+        print(format_prob(prob_funny, decimals = 0), "of the", lang.capitalize(), "reviews were considered 'Funny'")
         
         prob_helpful = compute_prob(f_df_lang, 'votes_helpful', 1)       
-        print(format_prob(prob_helpful), "of the", lang.capitalize(), "reviews were considered 'Helpful'")
+        print(format_prob(prob_helpful, decimals = 0), "of the", lang.capitalize(), "reviews were considered 'Helpful'\n")
     
     return f_df
 
