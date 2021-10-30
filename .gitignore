@@ -112,3 +112,4 @@ old_data/
 
 # ignore real data
 realdata/
+*.csv
