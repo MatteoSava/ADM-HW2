@@ -567,21 +567,6 @@ def norm_col(col):
     return (col - col_min) / (col_max - col_min)
 
 
-def dateparse(time_as_a_unix_timestamp):
-    """
-    RQ8
-    This function converts timestamps in UNIX time
-    to datetime (to the seconds)
-    
-    Arguments:
-        time_as_a_unix_timestamp 
-    Returns:
-        timestamp as datetime
-    """
-
-    return pd.to_datetime(time_as_a_unix_timestamp, unit = 's')
-
-
 def gauss(x, mu, sigma):
     """
     RQ8
