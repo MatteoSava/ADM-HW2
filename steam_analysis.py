@@ -369,31 +369,11 @@ def format_prob(prob, decimals = 2):
     """
     
     return f"{100 * prob:.{decimals}f}%"
-    
 
-def norm_col(col):
-    """
-    RQ7 RQ8
-    Normalizes a pandas dataframe's column so
-    its min value is 0 and its max value is 1
-    
-    Arguments:
-        col : column of a pandas dataframe
-    Returns:
-        normalized col
-    """
-    
-    col_min = col.min()
-    col_max = col.max()
-    
-    return (col - col_min) / (col_max - col_min)
-
-
-
-    ############## RQ5 ##############
 
 def ten_popular_reviewers(df):
     """
+    RQ5
     This functions finds the top 10 most popular reviewers and their no of reviews
     
     Arguments
@@ -407,6 +387,7 @@ def ten_popular_reviewers(df):
 def plot_ten_popular_reviewers(df2):
     
     """
+    RQ5
     This functions plots the the number of reviews made by the top 10 most popular reviewers
     
     Arguments
@@ -420,6 +401,7 @@ def plot_ten_popular_reviewers(df2):
     
 def count_and_percent_purchase_free(p,f,l):
     """
+    RQ5
     This functions prints the count and percentage of applications purchased, and got for free
     
     Arguments
@@ -442,6 +424,7 @@ def count_and_percent_purchase_free(p,f,l):
     
 def count_positive_negative_review_free(fn,fp,l2):
     """
+    RQ5
     This functions prints the count and percentage of applications purchased, and got for free
     
     Arguments
@@ -463,6 +446,7 @@ def count_positive_negative_review_free(fn,fp,l2):
 
 def count_positive_negative_review_free(pn,pp,l3):
     """
+    RQ5
     This functions prints the count and percentage of applications purchased, and got for free
     
     Arguments
@@ -481,21 +465,20 @@ def count_positive_negative_review_free(pn,pp,l3):
     print("Number of applications purchased and reviewed negatively")
     print(pn)
     print("Percentage of applications purchased  and reviewed negatively" )
-    print(b)  
-
-
-
-############## RQ6 ##############
+    print(b)
+    
 
 def avg_time_before_update(df):
     """
+    RQ6
     This functions prints the average time (days and minutes) a user lets pass before he updates a review
     
     Arguments
          df : pandas dataframe
         
     Returns
-         void  """
+         void
+    """
     
     #we extract the column from the dataset
     df4=df['author.playtime_at_review']
@@ -508,13 +491,14 @@ def avg_time_before_update(df):
     
 def removing_nonupdated_reviews(df):
     """
+    RQ6
     This functions removes the reviewers who haven't updated the reviews
     
     Arguments
          df : pandas dataframe   
     Returns
          removes new dataframe with reviewer steamid and difference between timestamps of creation and updatiion
-         """ 
+    """ 
     
     #We take the difference of the 2 variables ("timestamp created " and "timestamp updated") to find the reviewers who haven't updated the reviews
     difference=df['timestamp_updated']-df['timestamp_created']
@@ -537,6 +521,7 @@ def removing_nonupdated_reviews(df):
 
 def count_number_reviews(df):
     """
+    RQ6
     This functions counts the number of reviews by each of the top 3 reviewers
     
     Arguments
@@ -551,6 +536,7 @@ def count_number_reviews(df):
 def plot_top3_reviewers(df2):
     
     """
+    RQ6
     This functions plots the top 3 authors that usually update their reviews
     
     Arguments
@@ -561,3 +547,52 @@ def plot_top3_reviewers(df2):
     #plotting the the number of reviews made by the top 10 most popular reviewers
     df2.plot(kind='bar')
     plt.show()
+    
+
+def norm_col(col):
+    """
+    RQ7 RQ8
+    Normalizes a pandas dataframe's column so
+    its min value is 0 and its max value is 1
+    
+    Arguments:
+        col : column of a pandas dataframe
+    Returns:
+        normalized col
+    """
+    
+    col_min = col.min()
+    col_max = col.max()
+    
+    return (col - col_min) / (col_max - col_min)
+
+
+def dateparse(time_as_a_unix_timestamp):
+    """
+    RQ8
+    This function converts timestamps in UNIX time
+    to datetime (to the seconds)
+    
+    Arguments:
+        time_as_a_unix_timestamp 
+    Returns:
+        timestamp as datetime
+    """
+
+    return pd.to_datetime(time_as_a_unix_timestamp, unit = 's')
+
+
+def gauss(x, mu, sigma):
+    """
+    RQ8
+    Gaussian PDF with parameters mu and sigma
+    
+    Arguments:
+        x     : numpy array of input values
+        mu    : mean of the Gaussian
+        sigma : standard deviation of the Gaussian
+    Returns:
+        numpy array
+    """
+    
+    return 1/(sigma * np.sqrt(2 * np.pi)) * np.exp( - (x - mu)**2 / (2 * sigma**2) )
