@@ -2,4 +2,4 @@
 
 
 1. __`ADM_HW2.ipynb`__: 
-	> A Jupyter notebook which provides the solutions to all research questions.
+	> A Jupyter notebook which provides the solutions to all research and theoretical questions.
